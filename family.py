@@ -1,6 +1,6 @@
 
 class Node(object):
-    def __init__(self, gender, description = 'Someone'):
+    def __init__(self, gender = 2, description = 'Someone'):
 
         self.description = description
         try:
@@ -28,7 +28,7 @@ class Node(object):
         # return True
 
     def add_reverse_node(self, node_idx, direction):
-        self.linked_node.append((node_idx, direction))
+        self.linked_node.append((node_idx, -direction))
         self.father_graph.update_level(self.graph_idx, node_idx, direction)
 
     def display_detail(self):
@@ -63,9 +63,10 @@ class Graph(object):
         #Basic level displayment, wo link
         level_and_idxs = [[idx, self.level_list[idx]] for idx in range(self.nodes)]
         level_and_idxs.sort(key = lambda x : x[1])
-        top_level = level_and_idxs[0][0]
+        top_level = level_and_idxs[0][1]
         for virtual_node in level_and_idxs:
             if virtual_node[1] > top_level:
+                top_level = virtual_node[1]
                 print('')
             print(virtual_node[0],' ',end='')
         print('')
@@ -92,9 +93,9 @@ if __name__ == '__main__':
     
     anchor.add_node(Node(0), 0)
     anchor.add_node(Node(1), 1)
+    bgraph.fetch_node(1).add_node(Node(),-1)
+    bgraph.fetch_node(3).add_node(Node(),-1)
 
     bgraph.display_detail()
-    # for node in bgraph.node_list:
-    #     node.display_detail()
 
     bgraph.display_graph()  
