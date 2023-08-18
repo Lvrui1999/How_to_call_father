@@ -42,7 +42,7 @@ class Node(object):
 class Graph(object):
     def __init__(self) -> None:
         self.node_list = []
-        self.level_list = []
+        self.level_list = [] 
         self.nodes = 0
     
     def add_node(self, node_to_add : Node) -> int:
