@@ -1,5 +1,8 @@
 import json
 
+
+
+
 class Node(object):
     def __init__(self, gender = 2, description = 'Someone'):
 
@@ -119,6 +122,24 @@ class Graph(object):
     def dumps(self):
         return json.dumps({'level_list' : self.level_list, 'node_list' : [tmp.dumps() for tmp in self.node_list]})
 
+    def save_to_file(self, filename):
+        f = open(filename, 'w')
+        f.write(self.dumps())
+        f.close()
+    
+    def cal_relation(self, node_call, node_be_called):
+        pass
+
+
+
+
+
+def quick_open(filename):
+    f = open('graphic.txt','r')
+    tm = f.read()
+    f.close()
+    return Graph.loads(tm)
+
 
 
 
@@ -127,22 +148,21 @@ class Graph(object):
 
 
 if __name__ == '__main__':
-    bgraph = Graph()
+    # bgraph = Graph()
 
-    anchor = Node(0, description='Test myself')
-    bgraph.add_node(anchor)
+    # anchor = Node(0, description='Test myself')
+    # bgraph.add_node(anchor)
     
-    anchor.add_node(Node(0), 0)
-    anchor.add_node(Node(1), 1)
-    bgraph.fetch_node(1).add_node(Node(),-1)
-    bgraph.fetch_node(3).add_node(Node(),-1)
+    # anchor.add_node(Node(0), 0)
+    # anchor.add_node(Node(1), 1)
+    # bgraph.fetch_node(1).add_node(Node(),-1)
+    # bgraph.fetch_node(3).add_node(Node(),-1)
 
-    # bgraph.display_detail()
+    # # bgraph.display_detail()
 
+    # bgraph.display_graph()  
+
+    # bgraph.save_to_file('graphic.txt')
+
+    bgraph = quick_open('graphic.txt')
     bgraph.display_graph()  
-
-    # anchor.display_detail()
-
-    ss = bgraph.dumps()
-
-    Graph.loads(ss).display_graph()  
