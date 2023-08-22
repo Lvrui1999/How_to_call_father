@@ -24,17 +24,24 @@ class Node(object):
 
     #Adding node (Node, direction)
     def add_node(self, node, direction): #direction: (-1 up, 1 down, 0 same_level)
-        self.linked_node.append((self.father_graph.add_node(node), direction))
+        self.linked_node.append([self.father_graph.add_node(node), direction])
         node.add_reverse_node(self.graph_idx, direction)
         # return True
 
     def add_reverse_node(self, node_idx, direction):
-        self.linked_node.append((node_idx, -direction))
+        self.linked_node.append([node_idx, -direction])
         self.father_graph.update_level(self.graph_idx, node_idx, direction)
 
     def display_detail(self):
         print('Graph_idx:', self.graph_idx)
         print('Linked_Node:\n', self.linked_node,'\n')
+    
+    def dumps(self):
+        pass
+
+    def loads(self, strs):
+        pass
+
         
     
 
