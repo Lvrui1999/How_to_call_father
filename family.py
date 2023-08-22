@@ -16,11 +16,26 @@ class Node(object):
         self.graph_idx = -1
         # self.lineup_idx = 0
 
+    @classmethod
+    def loads(cls, strs):
+        temp = json.loads(strs)
+        # {'sex' : self.gender, 'desp' : self.description, 'idx': self.graph_idx, 'links' : self.linked_node}
+        temp_node = cls(gender = temp['sex'], description = temp['desp'])
+        temp_node.set_linked_node(temp['links'])
+        temp_node.set_idx(temp['idx'])
+        return temp_node
+        
+    def set_linked_node(self, linked_noed):
+        self.linked_node = linked_noed
+
     def set_graph(self, father_graph):
         self.father_graph = father_graph
+        return self
+        
     
     def set_idx(self, idx):
         self.graph_idx = idx
+        
 
     #Adding node (Node, direction)
     def add_node(self, node, direction): #direction: (-1 up, 1 down, 0 same_level)
@@ -37,10 +52,8 @@ class Node(object):
         print('Linked_Node:\n', self.linked_node,'\n')
     
     def dumps(self):
-        pass
+        return json.dumps({'sex' : self.gender, 'desp' : self.description, 'idx': self.graph_idx, 'links' : self.linked_node})
 
-    def loads(self, strs):
-        pass
 
         
     
@@ -53,6 +66,23 @@ class Graph(object):
         self.level_list = [] 
         self.nodes = 0
     
+    @classmethod
+    def loads(cls, strs):
+        temp = json.loads(strs)
+        # {'level_list' : self.level_list, 'node_list' : [tmp.dumps() for tmp in self.node_list]}
+        temp_graph = cls()
+        true_node_list = [Node.loads(tmp_item).set_graph(temp_graph) for tmp_item in temp['node_list']]
+        temp_graph.set_node_list(true_node_list)
+        temp_graph.set_level_list(temp['level_list'])
+        return temp_graph
+
+    def set_node_list(self, node_list):
+        self.node_list = node_list
+
+    def set_level_list(self, level_list):
+        self.level_list = level_list
+        self.nodes = len(level_list)
+
     def add_node(self, node_to_add : Node) -> int:
         node_to_add.set_graph(self)
         node_to_add.set_idx(len(self.node_list))
@@ -87,10 +117,8 @@ class Graph(object):
         print('Levels:\n', self.level_list,'\n')
 
     def dumps(self):
-        pass
+        return json.dumps({'level_list' : self.level_list, 'node_list' : [tmp.dumps() for tmp in self.node_list]})
 
-    def loads(self):
-        pass
 
 
 
@@ -109,6 +137,12 @@ if __name__ == '__main__':
     bgraph.fetch_node(1).add_node(Node(),-1)
     bgraph.fetch_node(3).add_node(Node(),-1)
 
-    bgraph.display_detail()
+    # bgraph.display_detail()
 
     bgraph.display_graph()  
+
+    # anchor.display_detail()
+
+    ss = bgraph.dumps()
+
+    Graph.loads(ss).display_graph()  
