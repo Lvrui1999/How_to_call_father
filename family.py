@@ -1,3 +1,4 @@
+import json
 
 class Node(object):
     def __init__(self, gender = 2, description = 'Someone'):
@@ -71,13 +72,18 @@ class Graph(object):
             print(virtual_node[0],' ',end='')
         print('')
 
-
     def display_detail(self):
         print('Nodes:', self.nodes)
         for node in self.node_list:
             node.display_detail()
 
         print('Levels:\n', self.level_list,'\n')
+
+    def dumps(self):
+        pass
+
+    def loads(self):
+        pass
 
 
 

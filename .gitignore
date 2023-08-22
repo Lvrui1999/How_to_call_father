@@ -161,3 +161,4 @@ cython_debug/
 
 #Family Graph
 graphic.txt
+family_name.txt
